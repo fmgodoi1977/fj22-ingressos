@@ -1,5 +1,6 @@
 package ingresso;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -18,10 +19,10 @@ public class GerenciadorDeSessaoTest {
 	@Test
 	public void garanteQueNaoDevePermitirSessaoNoMesmoHorario() {
 
-		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI");
+		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		LocalTime horario = LocalTime.parse("10:00:00");
 
-		Sala sala = new Sala("");
+		Sala sala = new Sala("", BigDecimal.ONE);
 		List<Sessao> sessoes = Arrays.asList(new Sessao(horario, sala, filme));
 
 		Sessao sessao = new Sessao(horario, sala, filme);
@@ -32,10 +33,10 @@ public class GerenciadorDeSessaoTest {
 	@Test
 	public void garanteQueNaoDevePermitirSessoesTerminandoDentroDoHorarioDeUmaSessaoExistente() {
 
-		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI");
+		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		LocalTime horario = LocalTime.parse("10:00:00");
 
-		Sala sala = new Sala("");
+		Sala sala = new Sala("", BigDecimal.ONE);
 		List<Sessao> sessoes = Arrays.asList(new Sessao(horario, sala, filme));
 
 		Sessao sessao = new Sessao(horario.minusHours(1), sala, filme);
@@ -46,10 +47,10 @@ public class GerenciadorDeSessaoTest {
 	@Test
 	public void garanteQueNaoDevePermitirSessoesDentroDentroDoHorarioDeUmaSessaoExistente() {
 
-		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI");
+		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		LocalTime horario = LocalTime.parse("10:00:00");
 
-		Sala sala = new Sala("");
+		Sala sala = new Sala("", BigDecimal.ONE);
 		List<Sessao> sessoes = Arrays.asList(new Sessao(horario, sala, filme));
 
 		Sessao sessao = new Sessao(horario.plusHours(1), sala, filme);
@@ -60,19 +61,19 @@ public class GerenciadorDeSessaoTest {
 	@Test
 	public void garanteQueDevePermitirUmaInsercaoEntreDoisFilmes() {
 
-		Sala sala = new Sala("");
+		Sala sala = new Sala("", BigDecimal.ONE);
 
-		Filme filme1 = new Filme("Rogue One", Duration.ofMinutes(90), "SCI-FI");
+		Filme filme1 = new Filme("Rogue One", Duration.ofMinutes(90), "SCI-FI", BigDecimal.ONE);
 		LocalTime dezHoras = LocalTime.parse("10:00:00");
 		Sessao sessaoDasDez = new Sessao(dezHoras, sala, filme1);
 
-		Filme filme2 = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI");
+		Filme filme2 = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		LocalTime dezoitoHoras = LocalTime.parse("18:00:00");
 		Sessao sessaoDasDezoito = new Sessao(dezoitoHoras, sala, filme2);
 
 		List<Sessao> sessoes = Arrays.asList(sessaoDasDez, sessaoDasDezoito);
 
 		GerenciadorDeSessao gerenciador = new GerenciadorDeSessao(sessoes);
-		Assert.assertFalse(gerenciador.cabe(new Sessao(LocalTime.parse("13:00:00"), sala, filme2)));
+		Assert.assertTrue(gerenciador.cabe(new Sessao(LocalTime.parse("13:00:00"), sala, filme2)));
 	}
 }
