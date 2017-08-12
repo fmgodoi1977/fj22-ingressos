@@ -17,4 +17,9 @@ public class DescontoDeTrintaPorcentoParaBancos implements Desconto {
 
 	}
 
+	@Override
+	public String getDescricao() {
+		return "Desconto Banco";
+	}
+
 }
